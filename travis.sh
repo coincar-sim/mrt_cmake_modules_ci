@@ -117,7 +117,7 @@ else
 fi
 
 # Package depdencies: install using rosdep.
-travis_run rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+travis_run rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
 # Build and test
 travis_run cd ~/catkin_ws
