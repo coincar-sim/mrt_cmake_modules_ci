@@ -1,5 +1,5 @@
-# This config file for Travis CI utilizes https://github.com/ros-planning/moveit_ci/ package.
-# THIS FILE IS BEING USED TO CI-TEST THE CI SCRIPT ITSELF - do not use this for your moveit repo but instead use the version in README.md
+# This config file for Travis CI utilizes https://github.com/coincar-sim/mrt_cmake_modules_ci/ package.
+# THIS FILE IS BEING USED TO CI-TEST THE CI SCRIPT ITSELF - do not use this for your repo but instead use the version in README.md
 sudo: required
 dist: trusty
 services:
@@ -7,18 +7,14 @@ services:
 language: generic
 compiler:
   - gcc
-notifications:
-  email:
-    recipients:
-       - dave@dav.ee
+
 env:
-  matrix:
-    - ROS_DISTRO=kinetic ROS_REPO=ros              UPSTREAM_WORKSPACE=travis.rosinstall BEFORE_SCRIPT="echo 'testing'" TEST_BLACKLIST="moveit_core"
-    - ROS_DISTRO=kinetic ROS_REPO=ros-shadow-fixed UPSTREAM_WORKSPACE=travis.rosinstall BEFORE_SCRIPT="echo 'testing'"
-    - ROS_DISTRO=kinetic ROS_REPO=ros-shadow-fixed UPSTREAM_WORKSPACE=https://raw.githubusercontent.com/ros-planning/moveit/kinetic-devel/moveit.rosinstall,https://raw.githubusercontent.com/ros-planning/moveit/kinetic-devel/moveit.rosinstall # Duplicated .rosinstall file for testing purposes
+  global:
+    - ROS_DISTRO=kinetic
+    - DEPENDENCIES_ROSINSTALL=travis.rosinstall
 
 before_script:
-  - ln -s . .moveit_ci # pretend to have the usual location
+  - ln -s . .mrt_cmake_modules_ci # pretend to have the usual location
 
 script:
-  - .moveit_ci/travis.sh
+  - .mrt_cmake_modules_ci/travis.sh
