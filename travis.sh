@@ -75,6 +75,7 @@ travis_run apt-get install -y python-rosdep
 travis_run apt-get install -y python-wstool
 travis_run apt-get install -y ros-$ROS_DISTRO-catkin
 travis_run apt-get install -y python-catkin-tools
+travis_run apt-get install -y ros-$ROS_DISTRO-ros-environment
 
 # Enable ccache
 travis_run apt-get -qq install ccache
