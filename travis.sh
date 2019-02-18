@@ -116,8 +116,9 @@ else
     echo "No rosinstall file provided, was looking for $CI_SOURCE_PATH/$DEPENDENCIES_ROSINSTALL" ;
 fi
 
-# Package depdencies: install using rosdep.
+# Package depdencies: install using rosdep and source again.
 travis_run rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+travis_run source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Build and test
 travis_run cd ~/catkin_ws
