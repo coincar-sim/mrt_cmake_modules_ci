@@ -63,7 +63,7 @@ echo "Testing branch '$TRAVIS_BRANCH' of '$REPOSITORY_NAME' on ROS '$ROS_DISTRO'
 # Adding ros repo
 echo "Adding ros repo to apt sources"
 sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
-travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
 # Update the sources
 travis_run apt-get -qq update
