@@ -87,10 +87,8 @@ Xvfb -screen 0 640x480x24 :99 &
 export DISPLAY=:99.0
 travis_run_true glxinfo
 
-# Setup rosdep and add rosdep-definitions from mrt_cmake_modules
+# Setup rosdep
 travis_run rosdep init
-travis_run echo "Adding rosdep-definitions from mrt_cmake_modules"
-echo "yaml https://raw.githubusercontent.com/KIT-MRT/mrt_cmake_modules/master/yaml/base.yaml" | tee --append /etc/ros/rosdep/sources.list.d/20-default.list
 travis_run rosdep update
 
 # Source ROS
