@@ -12,11 +12,11 @@
 echo "--- begin of travis.sh ---"
 export CI_SOURCE_PATH=$(pwd) # The repository code in this pull request that we are testing
 export CI_PARENT_DIR=.mrt_cmake_modules_ci  # This is the folder name that is used in downstream repositories in order to point to this repo.
-export CI_DESKTOP="xenial"
+export UBUNTU_VERSION=${UBUNTU_VERSION:-xenial} # xenial is default (legacy...)
 export HIT_ENDOFSCRIPT=false
 export REPOSITORY_NAME=${PWD##*/}
 export CATKIN_WS=/root/catkin_ws
-export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
+export DEBIAN_FRONTEND=noninteractive
 
 # Helper functions
 source ${CI_SOURCE_PATH}/$CI_PARENT_DIR/util.sh
@@ -26,7 +26,7 @@ if ! [ -f /.dockerenv ]; then
 
     # Choose the correct CI container to use
     . /etc/os-release
-    export DOCKER_IMAGE=ubuntu:xenial
+    export DOCKER_IMAGE=ubuntu:$UBUNTU_VERSION
 
     # Pull first to allow us to hide console output
     docker pull $DOCKER_IMAGE > /dev/null
@@ -40,6 +40,8 @@ if ! [ -f /.dockerenv ]; then
         -e CI_SOURCE_PATH \
         -e DEPENDENCIES_ROSINSTALL \
         -e TRAVIS_BRANCH \
+        -e DEBIAN_FRONTEND \
+        -e UBUNTU_VERSION \
         -v $(pwd):/root/$REPOSITORY_NAME \
         -v $HOME/.ccache:/root/.ccache \
         $DOCKER_IMAGE \
@@ -60,12 +62,16 @@ fi
 echo "Inside docker container, running \"$PRETTY_NAME\""
 echo "Testing branch '$TRAVIS_BRANCH' of '$REPOSITORY_NAME' on ROS '$ROS_DISTRO'"
 
+# Update the sources
+travis_run apt-get -qq update
+travis_run apt-get install -y gnupg
+
 # Adding ros repo
 echo "Adding ros repo to apt sources"
-sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
+sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $UBUNTU_VERSION main\" > /etc/apt/sources.list.d/ros-latest.list"
 travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
-# Update the sources
+# Update the sources again
 travis_run apt-get -qq update
 
 # Install the required apt packages
