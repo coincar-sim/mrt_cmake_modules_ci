@@ -10,7 +10,7 @@ Create a ``.travis.yml`` file in the base of you repo similar to:
 ```
 # This config file for Travis CI utilizes https://github.com/coincar-sim/mrt_cmake_modules_ci/ package.
 sudo: required
-dist: trusty
+dist: xenial
 services:
   - docker
 language: cpp
@@ -21,19 +21,30 @@ notifications:
   email:
     recipients:
       # - user@email.com
+
+matrix:
+  include:
+    - env:
+      - UBUNTU_VERSION=xenial
+      - ROS_DISTRO=kinetic
+    - env:
+      - UBUNTU_VERSION=bionic
+      - ROS_DISTRO=melodic
+
 env:
   global:
-    - ROS_DISTRO=kinetic
     - DEPENDENCIES_ROSINSTALL=dependencies.rosinstall
 
 before_script:
   - git clone -q https://github.com/coincar-sim/mrt_cmake_modules_ci.git .mrt_cmake_modules_ci
+
 script:
   - .mrt_cmake_modules_ci/travis.sh
 ```
 
 ## Configurations
 
-- ROS_DISTRO: which version of ROS (e.g. kinetic, note that ubuntu:xenial is used as OS)
-- DEPENDENCIES_ROSINSTALL (optional): rosinstall file pointing to source dependencies
+- `ROS_DISTRO`: which version of ROS (kinetic, melodic, ...)
+- `UBUNTU_VERSION` (optional): which version of ubuntu (xenial, bionic, ...; default is xenial)
+- `DEPENDENCIES_ROSINSTALL` (optional): rosinstall file pointing to source dependencies
 - other dependencies are resolved via rosdep and [mrt_cmake_modules](https://github.com/KIT-MRT/mrt_cmake_modules)' AutoDeps

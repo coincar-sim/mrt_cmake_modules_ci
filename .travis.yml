@@ -1,16 +1,23 @@
 # This config file for Travis CI utilizes https://github.com/coincar-sim/mrt_cmake_modules_ci/ package.
 # THIS FILE IS BEING USED TO CI-TEST THE CI SCRIPT ITSELF - do not use this for your repo but instead use the version in README.md
 sudo: required
-dist: trusty
+dist: xenial
 services:
   - docker
 language: generic
 compiler:
   - gcc
 
+matrix:
+  include:
+    - env:
+      - UBUNTU_VERSION=xenial
+      - ROS_DISTRO=kinetic
+    - env:
+      - UBUNTU_VERSION=bionic
+      - ROS_DISTRO=melodic
+
 env:
-  global:
-    - ROS_DISTRO=kinetic
     - DEPENDENCIES_ROSINSTALL=travis.rosinstall
 
 before_script:
