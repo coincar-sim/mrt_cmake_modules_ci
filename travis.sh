@@ -71,6 +71,9 @@ echo "Adding ros repo to apt sources"
 sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $UBUNTU_VERSION main\" > /etc/apt/sources.list.d/ros-latest.list"
 travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
+# Adding ubuntu toolchain
+travis_run add-apt-repository ppa:ubuntu-toolchain-r/test
+
 # Update the sources again
 travis_run apt-get -qq update
 
