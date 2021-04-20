@@ -65,17 +65,26 @@ echo "Testing branch '$TRAVIS_BRANCH' of '$REPOSITORY_NAME' on ROS '$ROS_DISTRO'
 # Update the sources
 travis_run apt-get -qq update
 travis_run apt-get install -y gnupg
+travis_run apt-get install -y software-properties-common
 
 # Adding ros repo
 echo "Adding ros repo to apt sources"
 sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $UBUNTU_VERSION main\" > /etc/apt/sources.list.d/ros-latest.list"
 travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
+# Adding ubuntu toolchain
+travis_run add-apt-repository ppa:ubuntu-toolchain-r/test
+
 # Update the sources again
 travis_run apt-get -qq update
 
 # Install the required apt packages
 travis_run apt-get install -y build-essential
+if [ $UBUNTU_VERSION == "bionic" ]; then
+    travis_run apt-get install -y gcc-10
+    travis_run apt-get install -y g++-10
+    travis_run apt-get install -y clang-format-10
+fi
 travis_run apt-get install -y python-catkin-pkg
 travis_run apt-get install -y python-rosdep
 travis_run apt-get install -y python-wstool
