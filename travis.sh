@@ -80,9 +80,11 @@ travis_run apt-get -qq update
 
 # Install the required apt packages
 travis_run apt-get install -y build-essential
-travis_run apt-get install -y gcc-10
-travis_run apt-get install -y g++-10
-travis_run apt-get install -y clang-format-10
+if [ $UBUNTU_VERSION == "bionic" ]; then
+    travis_run apt-get install -y gcc-10
+    travis_run apt-get install -y g++-10
+    travis_run apt-get install -y clang-format-10
+fi
 travis_run apt-get install -y python-catkin-pkg
 travis_run apt-get install -y python-rosdep
 travis_run apt-get install -y python-wstool
