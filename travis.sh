@@ -118,12 +118,12 @@ travis_run catkin init
 # Configure catkin to build in debug mode
 travis_run catkin config --cmake-args -DCMAKE_BUILD_TYPE=Debug
 # Add the package under integration to the workspace using a symlink.
-travis_run cd ~/catkin_ws/src
+travis_run cd $CATKIN_WS/src
 travis_run ln -s $CI_SOURCE_PATH .
 
 # Install all dependencies
 # Source dependencies: install using wstool.
-travis_run cd ~/catkin_ws
+travis_run cd $CATKIN_WS
 if [[ -f "$CI_SOURCE_PATH/$DEPENDENCIES_ROSINSTALL" ]] ; then
     travis_run wstool merge -t src "$CI_SOURCE_PATH/$DEPENDENCIES_ROSINSTALL"
     travis_run wstool update -t src ;
@@ -136,7 +136,7 @@ travis_run rosdep install -y -r --from-paths src --ignore-src --rosdistro $ROS_D
 travis_run source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Build and test
-travis_run cd ~/catkin_ws
+travis_run cd $CATKIN_WS
 travis_run catkin build --no-status --continue-on-failure
 # Run the tests and check the results. (But do not test this (mrt_cmake_modules_ci) package as it would fail.)
 if [[ $REPOSITORY_NAME != mrt_cmake_modules_ci ]] ; then
