@@ -73,7 +73,7 @@ sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyring
 travis_run curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg
 
 # Adding ubuntu toolchain
-travis_run add-apt-repository ppa:ubuntu-toolchain-r/test
+travis_run add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
 # Update the sources again
 travis_run apt-get -qq update
