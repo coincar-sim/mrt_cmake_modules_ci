@@ -66,6 +66,7 @@ echo "Testing branch '$TRAVIS_BRANCH' of '$REPOSITORY_NAME' on ROS '$ROS_DISTRO'
 travis_run apt-get -qq update
 travis_run apt-get install -y gnupg
 travis_run apt-get install -y software-properties-common
+travis_run apt-get install -y curl
 
 # Adding ros repo
 echo "Adding ros repo to apt sources"
