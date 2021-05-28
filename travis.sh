@@ -66,14 +66,15 @@ echo "Testing branch '$TRAVIS_BRANCH' of '$REPOSITORY_NAME' on ROS '$ROS_DISTRO'
 travis_run apt-get -qq update
 travis_run apt-get install -y gnupg
 travis_run apt-get install -y software-properties-common
+travis_run apt-get install -y curl
 
 # Adding ros repo
 echo "Adding ros repo to apt sources"
-sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $UBUNTU_VERSION main\" > /etc/apt/sources.list.d/ros-latest.list"
-travis_run apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $UBUNTU_VERSION main" > /etc/apt/sources.list.d/ros-latest.list'
+travis_run curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg
 
 # Adding ubuntu toolchain
-travis_run add-apt-repository ppa:ubuntu-toolchain-r/test
+travis_run add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
 # Update the sources again
 travis_run apt-get -qq update
