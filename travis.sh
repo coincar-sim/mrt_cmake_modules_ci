@@ -98,6 +98,8 @@ then
   travis_run apt-get install -y python3-rosdep
   travis_run apt-get install -y python3-wstool
   travis_run apt-get install -y python3-catkin-tools
+  travis_run apt-get install -y python3-catkin-lint python3-pip
+  travis_run pip3 install osrf-pycommon
 fi
 travis_run apt-get install -y ros-$ROS_DISTRO-catkin
 travis_run apt-get install -y ros-$ROS_DISTRO-ros-environment
