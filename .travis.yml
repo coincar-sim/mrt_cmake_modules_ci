@@ -16,6 +16,9 @@ matrix:
     - env:
       - UBUNTU_VERSION=bionic
       - ROS_DISTRO=melodic
+    - env:
+      - UBUNTU_VERSION=focal
+      - ROS_DISTRO=noetic
 
 env:
     - DEPENDENCIES_ROSINSTALL=travis.rosinstall

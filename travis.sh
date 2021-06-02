@@ -81,16 +81,25 @@ travis_run apt-get -qq update
 
 # Install the required apt packages
 travis_run apt-get install -y build-essential
-if [ $UBUNTU_VERSION == "bionic" ]; then
+if [ "$UBUNTU_VERSION" == "bionic" ] || [ "$UBUNTU_VERSION" == "focal" ]; then
     travis_run apt-get install -y gcc-10
     travis_run apt-get install -y g++-10
     travis_run apt-get install -y clang-format-10
 fi
-travis_run apt-get install -y python-catkin-pkg
-travis_run apt-get install -y python-rosdep
-travis_run apt-get install -y python-wstool
+if [ "$UBUNTU_VERSION" == "bionic" ];
+then
+  travis_run apt-get install -y python-catkin-pkg
+  travis_run apt-get install -y python-rosdep
+  travis_run apt-get install -y python-wstool
+  travis_run apt-get install -y python-catkin-tools
+elif [ "$UBUNTU_VERSION" == "focal" ]
+then
+  travis_run apt-get install -y python3-catkin-pkg
+  travis_run apt-get install -y python3-rosdep
+  travis_run apt-get install -y python3-wstool
+  travis_run apt-get install -y python3-catkin-tools
+fi
 travis_run apt-get install -y ros-$ROS_DISTRO-catkin
-travis_run apt-get install -y python-catkin-tools
 travis_run apt-get install -y ros-$ROS_DISTRO-ros-environment
 
 # Enable ccache
