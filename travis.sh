@@ -86,7 +86,7 @@ if [ "$UBUNTU_VERSION" == "bionic" ] || [ "$UBUNTU_VERSION" == "focal" ]; then
     travis_run apt-get install -y g++-10
     travis_run apt-get install -y clang-format-10
 fi
-if [ "$UBUNTU_VERSION" == "bionic" ];
+if [ "$UBUNTU_VERSION" == "xenial" ] || [ "$UBUNTU_VERSION" == "bionic" ];
 then
   travis_run apt-get install -y python-catkin-pkg
   travis_run apt-get install -y python-rosdep
