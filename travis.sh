@@ -148,7 +148,7 @@ travis_run source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Build and test
 travis_run cd $CATKIN_WS
-travis_run catkin build --no-status --continue-on-failure
+travis_wait 30 catkin build --no-status --continue-on-failure
 # Run the tests and check the results. (But do not test this (mrt_cmake_modules_ci) package as it would fail.)
 if [[ $REPOSITORY_NAME != mrt_cmake_modules_ci ]] ; then
     travis_run catkin run_tests --no-status $REPOSITORY_NAME --no-deps
